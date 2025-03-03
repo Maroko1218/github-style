@@ -16,6 +16,8 @@ function setTheme(style) {
   });
   document.documentElement.setAttribute('data-color-mode', style);
   localStorage.setItem('data-color-mode', style);
+  localStorage.setItem('prefers-color-scheme', style)
+  setGiscusTheme()
 }
 
 function setIconTheme(theme) {
@@ -44,6 +46,36 @@ function currentTheme() {
   const localStyle = localStorage.getItem('data-color-mode');
   const systemStyle = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   return localStyle || systemStyle;
+}
+
+function getGiscusTheme() {
+	const themeStatus = localStorage.getItem("data-color-mode")
+	let
+		dataThemeAuto = "preferred_color_scheme",
+		dataThemeLight = "light",
+		dataThemeDark = "dark",
+		giscusTheme = dataThemeAuto
+	if (themeStatus === undefined || themeStatus === "auto") {
+		giscusTheme = dataThemeAuto
+	} else if (themeStatus === "light") {
+		giscusTheme = dataThemeLight
+	} else if (themeStatus === "dark") {
+		giscusTheme = dataThemeDark
+	}
+	return giscusTheme
+}
+
+function setGiscusTheme() {
+	function sendMessage(message) {
+		const iframe = document.querySelector('iframe.giscus-frame')
+		if (!iframe) return
+		iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+	}
+	sendMessage({
+		setConfig: {
+			theme: getGiscusTheme(),
+		},
+	})
 }
 
 (() => {
