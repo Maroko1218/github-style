@@ -51,13 +51,10 @@ function currentTheme() {
 function getGiscusTheme() {
 	const themeStatus = localStorage.getItem("data-color-mode")
 	let
-		dataThemeAuto = "preferred_color_scheme",
+		giscusTheme = "preferred_color_scheme",
 		dataThemeLight = "light",
-		dataThemeDark = "dark",
-		giscusTheme = dataThemeAuto
-	if (themeStatus === undefined || themeStatus === "auto") {
-		giscusTheme = dataThemeAuto
-	} else if (themeStatus === "light") {
+		dataThemeDark = "dark"
+  if (themeStatus === "light") {
 		giscusTheme = dataThemeLight
 	} else if (themeStatus === "dark") {
 		giscusTheme = dataThemeDark
