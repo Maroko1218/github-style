@@ -12,18 +12,21 @@
 
 	{{ $content := . | replaceRE $wikiregex "$1" }}
 	{{ $content := $content | replaceRE "\\?" "\\?" }}
+	{{ $pageexists := $page.GetPage $content}}
+	{{ if $pageexists }}
 
-	{{ $wikilink :=  printf "%s%s%s" $firstBracket $content $lastBracket }}
-	
-	{{ $anchorized := $content | anchorize }}
+		{{ $wikilink :=  printf "%s%s%s" $firstBracket $content $lastBracket }}
 
-	{{ $rel := relref $page $anchorized }}
+		{{ $anchorized := $content | anchorize }}
 
-  {{ $link := printf "%s%s%s%s%s" "[" $content "]({{< relref path=\"" $rel "\">}})"  }}
+		{{ $rel := relref $page $anchorized }}
 
-	
-	{{ $noteContent := $.Scratch.Get "content" | replaceRE $wikilink $link }}
-	{{ $.Scratch.Set "content" $noteContent }}
+		{{ $link := printf "%s%s%s%s%s" "[" $content "]({{< relref path=\"" $rel "\">}})"  }}
+
+
+		{{ $noteContent := $.Scratch.Get "content" | replaceRE $wikilink $link }}
+		{{ $.Scratch.Set "content" $noteContent }}
+	{{ end }}
 {{ end }}
 
 {{ $content := .Scratch.Get "content" }}
