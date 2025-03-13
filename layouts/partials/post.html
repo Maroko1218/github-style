@@ -90,7 +90,8 @@
                     <h2>Backlinks</h2>
                     {{ range $backlinks }}
                       {{ range $link, $title := . }}
-                      <a href="{{ $link }}">{{ $title }}</a><br>
+                      {{ $hugolink := printf "%s%s%s%s%s" "[" $title "]({{< relref path=\"" $link "\">}})" }}
+                      {{ $hugolink | markdownify }}<br>
                       {{ end }}
                     {{ end }}
                   {{ end }}
