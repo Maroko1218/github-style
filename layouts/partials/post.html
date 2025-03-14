@@ -85,22 +85,31 @@
               <div class="Box-body px-5 pb-5" style="z-index: 1">
                 <article class="markdown-body entry-content container-lg">
                   {{ partial "content-wikilinks" . }}
-                  {{ $backlinks := partial "funcs/backlinks.html" . }}
-                  {{ if $backlinks }}
-                    <h2>Backlinks</h2>
-                    {{ range $backlinks }}
-                      {{ range $link, $title := . }}
-                      {{ $hugolink := printf "%s%s%s%s%s" "[" $title "]({{< relref path=\"" $link "\">}})" }}
-                      {{ $hugolink | markdownify }}<br>
-                      {{ end }}
-                    {{ end }}
-                  {{ end }}
                 </article>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <aside class="px-5">
+        {{ $backlinks := partial "funcs/backlinks.html" . }}
+        {{ if $backlinks }}
+          <h3>Backlinks</h3>
+          <ul style="
+          display: flex;
+          justify-content: start;
+          list-style-type: none;
+          column-gap: 2rem;
+          flex-wrap: wrap;">
+            {{ range $backlinks }}
+            {{ range $link, $title := . }}
+            {{ $hugolink := printf "%s%s%s%s%s" "[" $title "]({{< relref path=\"" $link "\">}})" }}
+            <li>{{ $hugolink | markdownify }}</li>
+            {{ end }}
+            {{ end }}
+          </ul>
+        {{ end }}
+      </aside>
     </div>
   </main>
 </div>
